@@ -54,6 +54,7 @@ class MenuViewController: UIViewController {
     // MARK: - Lifecycle
     
     override func loadView() {
+        setupTabViewController()
         view = customView
         title = "Aqus Cafe"
     }
@@ -61,12 +62,16 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         //        interactor.viewDidLoad(restaurantId: 38231304122631340)
     }
+    
+    private func setupTabViewController() {
+        self.navigationController?.navigationBar.barTintColor = .white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-Regular", size: 16)!]
+    }
 }
 
 // MARK: - MenuDisplayLogic
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        print("teste")
         return MenuSectionView()
     }
     
@@ -75,7 +80,9 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MenuItemCell.self), for: indexPath)
+        guard let menuItemCell = cell as? MenuItemCell else { preconditionFailure("MenuItemCell  not registered") }
+        return menuItemCell
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

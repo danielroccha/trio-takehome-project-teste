@@ -20,8 +20,8 @@ extension UIView {
             switch side {
             case .left:
                 border.backgroundColor = color
-                border.frame = CGRect(x: 0, y: 0, width: borderWidth, height: frame.size.height)
                 border.autoresizingMask = [.flexibleHeight, .flexibleRightMargin]
+                border.frame = CGRect(x: 0, y: 0, width: borderWidth, height: frame.size.height)
                 
             case .right:
                 border.backgroundColor = color

@@ -23,6 +23,15 @@ final class MenuView: CodedView {
     
     private let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.tableFooterView = UIView()
+        tableView.separatorInset = UIEdgeInsets(
+            top: .zero,
+            left: 50,
+            bottom: .zero,
+            right: 50
+        )
+        tableView.separatorColor = .lightGray
+        tableView.backgroundColor = .white
         tableView.register(MenuItemCell.self, forCellReuseIdentifier: String(describing: MenuItemCell.self))
         return tableView
     }()
@@ -61,7 +70,7 @@ final class MenuView: CodedView {
             top: safeAreaLayoutGuide.topAnchor,
             leading: leadingAnchor,
             trailing: trailingAnchor,
-            topConstant: 50,
+            topConstant: 40,
             bottomConstant: 44
         )
     }
