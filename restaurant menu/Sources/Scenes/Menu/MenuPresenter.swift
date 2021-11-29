@@ -17,7 +17,7 @@ final class MenuPresenter: MenuPresentationLogic {
     weak var viewController: MenuDisplayLogic?
 
     func presentRestaurantMenu(data: Restaurant) {
-        
+        viewController?.displayRestaurant(data: data)
     }
     
     func presentErrorRestaurantMenu() {

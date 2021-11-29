@@ -27,13 +27,17 @@ class MenuViewController: UIViewController {
     
     private var restaurant: Restaurant?
     private var restaurantId: Int?
+    private var menuSectionSeleted: Int = .zero
     
     // MARK: - Layout
     
     private lazy var customView: MenuView = {
         let view = MenuView(
             tableViewDelegate: self,
-            tableViewDataSource: self
+            tableViewDataSource: self,
+            handleSelectItem: { [weak self] valueSelected in
+                self?.setMenuSection(value: valueSelected)
+            }
         )
         return view
     }()
@@ -56,43 +60,63 @@ class MenuViewController: UIViewController {
     override func loadView() {
         setupTabViewController()
         view = customView
-        title = "Aqus Cafe"
+        
     }
     
     override func viewDidLoad() {
-        //        interactor.viewDidLoad(restaurantId: 38231304122631340)
+        interactor.viewDidLoad(restaurantId: 38231304122631340)
     }
     
     private func setupTabViewController() {
+        guard let font = UIFont(name: FontFamily.Montserrat.regular.name, size: 16) else { return }
         self.navigationController?.navigationBar.barTintColor = .white
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-Regular", size: 16)!]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: font]
+    }
+    
+    private func setMenuSection(value: Int) {
+        menuSectionSeleted = value
+        customView.tableView.reloadData()
     }
 }
 
-// MARK: - MenuDisplayLogic
+// MARK: - UITableViewDelegate, UITableViewDataSource
+
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return MenuSectionView()
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        guard let menusSections = restaurant?.menus.first?.menusSections else { return .zero }
+        let menuItems = menusSections[menuSectionSeleted].menusItems
+        return menuItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MenuItemCell.self), for: indexPath)
+        
         guard let menuItemCell = cell as? MenuItemCell else { preconditionFailure("MenuItemCell  not registered") }
+        
+        guard let menusSections = restaurant?.menus.first?.menusSections  else { return UITableViewCell()}
+        
+        let menuItem = menusSections[menuSectionSeleted].menusItems[indexPath.row]
+        
+        let viewModel: MenuItemCell.ViewModel = .init(
+            plateName: menuItem.name,
+            ingredients: menuItem.descritption ?? L10n.noDescription,
+            price: menuItem.price
+        )
+        
+        menuItemCell.viewModel = viewModel
+        
         return menuItemCell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60
     }
 }
 
 // MARK: - MenuDisplayLogic
+
 extension MenuViewController: MenuDisplayLogic {
     func displayRestaurant(data: Restaurant) {
         restaurant = data
+        guard let menuSections = data.menus.first?.menusSections else { return }
+        customView.setMenuSections(menuSections: menuSections)
+        customView.tableView.reloadData()
+        title = data.restaurantName
     }
 }

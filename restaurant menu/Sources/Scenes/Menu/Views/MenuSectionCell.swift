@@ -9,17 +9,20 @@ import UIKit
 
 final class MenuSectionCell: CodedCollectionViewCell {
     
-    struct ViewModel {
-        var selected: Bool
-        var handleTapSelect: () -> Void
-        var sectionName: String
+    // MARK: - Constants
+    
+    private enum ViewMetrics {
+        enum SectionNameLabel {
+            static let height: CGFloat = 60.0
+        }
     }
+    
+    // MARK: - View components
     
     private let sectionNameLabel: UILabel = {
         let sectionNameLabel = UILabel()
-        sectionNameLabel.text = "SMALL PLATES PLATES"
-        sectionNameLabel.textColor = .black
-        sectionNameLabel.font = UIFont(name: "Montserrat-Regular", size: 14.0)
+        sectionNameLabel.textColor = Asset.Colors.blackMain.color
+        sectionNameLabel.font = UIFont(name: FontFamily.Montserrat.regular.name, size: 14.0)
         return sectionNameLabel
     }()
     
@@ -32,11 +35,19 @@ final class MenuSectionCell: CodedCollectionViewCell {
         return border
     }()
     
+    struct ViewModel {
+        var selected: Bool
+        var handleTapSelect: () -> Void
+        var sectionName: String
+    }
+    
     var viewModel: ViewModel? {
         didSet {
             setCellSelected()
         }
     }
+    
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,11 +70,13 @@ final class MenuSectionCell: CodedCollectionViewCell {
         sectionNameLabelConstraint()
     }
     
+    // MARK: - Private methods
+    
     private func sectionNameLabelConstraint() {
         sectionNameLabel.anchor(
             top: contentView.topAnchor,
             leading: contentView.leadingAnchor,
-            heightConstant: 60
+            heightConstant: ViewMetrics.SectionNameLabel.height
         )
         sectionNameLabel.anchorCenterSuperView()
     }
@@ -72,11 +85,11 @@ final class MenuSectionCell: CodedCollectionViewCell {
         guard let viewModel = viewModel else { return }
         borderView.isHidden = !viewModel.selected
         sectionNameLabel.text = viewModel.sectionName.uppercased()
+        sectionNameLabel.textColor = viewModel.selected ? .black : .lightGray
     }
     
     @objc
     private func handleTap() {
-        
         viewModel?.handleTapSelect()
     }
 }

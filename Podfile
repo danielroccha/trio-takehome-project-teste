@@ -6,6 +6,7 @@ target 'restaurant menu' do
 
   # Pods for restaurant menu
   
+  pod 'SwiftGen', '~> 6.0'
   pod 'Alamofire', '~> 5.4'
 
   target 'restaurant menuTests' do

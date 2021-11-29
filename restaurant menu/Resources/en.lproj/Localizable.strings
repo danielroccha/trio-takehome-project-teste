@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  restaurant menu
+
+  Created by Daniel Rocha on 29/11/21.
+  
+*/
+
+"menu" = "MENU";
+"no_description" = "No Description";

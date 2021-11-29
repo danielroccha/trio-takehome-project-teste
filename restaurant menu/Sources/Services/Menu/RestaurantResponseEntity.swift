@@ -67,7 +67,7 @@ enum RestaurantResponseEntity {
         
         struct MenuSection: Codable {
             let sectionName: String
-            let description: String
+            let description: String?
             let menuItems: [MenuItem]
             
             enum CodingKeys: String, CodingKey {
@@ -79,7 +79,7 @@ enum RestaurantResponseEntity {
         
         struct MenuItem: Codable {
             let name: String
-            let description: String
+            let description: String?
             let pricing: [Pricing]
             let price: Double
         }

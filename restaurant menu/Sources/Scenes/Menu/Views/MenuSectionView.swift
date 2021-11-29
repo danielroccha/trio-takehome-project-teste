@@ -9,7 +9,8 @@ import UIKit
 
 final class MenuSectionView: CodedView {
     
-    // MARK: - View Metrics
+    // MARK: - Constants
+    
     private enum ViewMetrics {
         enum CollectionView {
             static let height: CGFloat = 60
@@ -21,11 +22,11 @@ final class MenuSectionView: CodedView {
     private let view: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.addBorder(toSide: [.top, .bottom], with: .lightGray, andWidth: 1)
+        view.addBorder(toSide: [.top, .bottom], with: Asset.Colors.lightGray.color, andWidth: 0.5)
         return view
     }()
     
-    private lazy var collectionView: UICollectionView = {
+    lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
@@ -40,10 +41,20 @@ final class MenuSectionView: CodedView {
         return collectionView
     }()
     
-    private var indexSelected: Int? = 0
-    private let teste = ["Small Plates", "Desserts", "teste3","teste4","teste5","teste6","teste7","teste8","teste9","teste10","teste11","teste12","teste13","teste14"]
+    // MARK: - Properties
     
-    init() {
+    private var indexSelected: Int? = 0
+    private var menuSections: [Restaurant.MenuSection]?
+    private let handleSelectItem: (Int) -> Void
+    
+    // MARK: - Initialization
+    
+    init(
+        menuSections: [Restaurant.MenuSection]?,
+        handleSelectItem: @escaping (Int) -> Void
+    ) {
+        self.menuSections = menuSections
+        self.handleSelectItem =  handleSelectItem
         super.init(frame: .zero)
     }
     
@@ -84,20 +95,32 @@ final class MenuSectionView: CodedView {
     }
     
     private func setMenuSectionSelected(index: Int) {
+        handleSelectItem(index)
         indexSelected = index
+        let indexPath = IndexPath(item: index, section: .zero)
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+        collectionView.reloadData()
+    }
+    
+    // MARK: - Public methods
+    
+    public func setMenuSections(menuSections: [Restaurant.MenuSection]) {
+        self.menuSections = menuSections
         collectionView.reloadData()
     }
 }
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
+
 extension MenuSectionView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        teste.count
+        menuSections?.count ?? .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MenuSectionCell.self), for: indexPath)
         guard let menuSectionCell = cell as? MenuSectionCell else { preconditionFailure("MenuSectionCell not registered") }
-        let name = teste[indexPath.row]
+        let name = menuSections?[indexPath.row].sectionName
         let isSelected = indexPath.row == indexSelected
         
         let viewModel = MenuSectionCell.ViewModel(
@@ -105,7 +128,7 @@ extension MenuSectionView: UICollectionViewDelegate, UICollectionViewDataSource 
             handleTapSelect: { [weak self] in
                 self?.setMenuSectionSelected(index: indexPath.row)
             },
-            sectionName: name
+            sectionName: name ?? ""
         )
         
         menuSectionCell.viewModel = viewModel
