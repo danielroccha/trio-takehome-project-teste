@@ -11,7 +11,6 @@ import Alamofire
 enum RestaurantRequest: URLRequestConvertible {
     
     case getRestaurant(restaurantId: Int)
-    case restaurants
     
     // MARK: - HTTPMethod
     private var method: HTTPMethod {
@@ -31,35 +30,39 @@ enum RestaurantRequest: URLRequestConvertible {
         switch self {
         case .getRestaurant(let restaurantId):
             return "/restaurant/\(restaurantId)"
-        case .restaurants:
-            return "abacate"
         }
     }
     
+    private func checkIsAuthtenticate(headers: [String : String]) -> [String : String] {
+        var headers: [String : String] = [:]
+        
+        if isAuthenticated {
+            let apiKeyHeader = ["X-API-KEY": Constants.Networking.apiKey]
+            headers = self.headers.merging(apiKeyHeader) {current , _ in current}
+        }
+        
+        return headers
+    }
+    
     // MARK: - URLRequestConvertible
+    
     func asURLRequest() throws -> URLRequest {
         let url = try Constants.Networking.baseURL.asURL()
         
         var urlRequest = URLRequest(url: url.appendingPathComponent(path))
         urlRequest.httpMethod = method.rawValue
         
-        if isAuthenticated {
-            let apiKeyHeader = ["X-API-KEY": Constants.Networking.apiKey]
-            let headers = self.headers.merging(apiKeyHeader) {current , _ in current}
-            urlRequest.headers = .init(headers)
-        }
+        let headerAuthenticate = checkIsAuthtenticate(headers: headers)
+        let headerData = self.headers.merging(headerAuthenticate) {current , _ in current}
+        urlRequest.headers = .init(headerData)
         
         return urlRequest
     }
     
     var isAuthenticated: Bool {
         switch self {
-        case .restaurants:
-            return true
         case .getRestaurant:
             return true
-        default:
-            return false
         }
     }
 }

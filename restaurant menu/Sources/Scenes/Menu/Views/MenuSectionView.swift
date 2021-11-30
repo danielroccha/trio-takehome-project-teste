@@ -13,7 +13,7 @@ final class MenuSectionView: CodedView {
     
     private enum ViewMetrics {
         enum CollectionView {
-            static let height: CGFloat = 60
+            static let height: CGFloat = 60.0
         }
     }
     
