@@ -11,6 +11,7 @@ target 'restaurant menu' do
 
   target 'restaurant menuTests' do
     inherit! :search_paths
+    pod 'SnapshotTesting', '~> 1.9.0'
     # Pods for testing
   end
 

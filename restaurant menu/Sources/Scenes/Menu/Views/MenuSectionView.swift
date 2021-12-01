@@ -43,17 +43,14 @@ final class MenuSectionView: CodedView {
     
     // MARK: - Properties
     
+    private var viewModel: Restaurant.ViewModel?
+    
     private var indexSelected: Int? = 0
-    private var menuSections: [Restaurant.MenuSection]?
     private let handleSelectItem: (Int) -> Void
     
     // MARK: - Initialization
     
-    init(
-        menuSections: [Restaurant.MenuSection]?,
-        handleSelectItem: @escaping (Int) -> Void
-    ) {
-        self.menuSections = menuSections
+    init(handleSelectItem: @escaping (Int) -> Void) {
         self.handleSelectItem =  handleSelectItem
         super.init(frame: .zero)
     }
@@ -104,8 +101,8 @@ final class MenuSectionView: CodedView {
     
     // MARK: - Public methods
     
-    public func setMenuSections(menuSections: [Restaurant.MenuSection]) {
-        self.menuSections = menuSections
+    public func setViewModel(viewModel: Restaurant.ViewModel) {
+        self.viewModel = viewModel
         collectionView.reloadData()
     }
 }
@@ -114,21 +111,25 @@ final class MenuSectionView: CodedView {
 
 extension MenuSectionView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        menuSections?.count ?? .zero
+        guard let menuSections = viewModel?.menuSections else { return .zero }
+        return menuSections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MenuSectionCell.self), for: indexPath)
         guard let menuSectionCell = cell as? MenuSectionCell else { preconditionFailure("MenuSectionCell not registered") }
-        let name = menuSections?[indexPath.row].sectionName
+        
+        guard let menuSection = viewModel?.menuSections[indexPath.row] else { return UICollectionViewCell() }
+        
+        let name = menuSection.sectionName
         let isSelected = indexPath.row == indexSelected
         
         let viewModel = MenuSectionCell.ViewModel(
-            selected: isSelected,
-            handleTapSelect: { [weak self] in
+            name: name,
+            isSelected: isSelected,
+            handleSelectItem: { [weak self] in
                 self?.setMenuSectionSelected(index: indexPath.row)
-            },
-            sectionName: name ?? ""
+            }
         )
         
         menuSectionCell.viewModel = viewModel

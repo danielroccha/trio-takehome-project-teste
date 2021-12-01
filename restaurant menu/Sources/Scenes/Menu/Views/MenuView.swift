@@ -7,6 +7,12 @@
 
 import UIKit
 
+enum MenuListState {
+    case empty
+    case loading
+    case content
+}
+
 final class MenuView: CodedView {
     
     // MARK: - Constants
@@ -31,12 +37,11 @@ final class MenuView: CodedView {
         menuLabel.text = L10n.menu
         menuLabel.adjustsFontSizeToFitWidth = true
         menuLabel.textColor = .black
-        menuLabel.font = UIFont(name: FontFamily.Montserrat.regular.name, size: 14.0)
+        menuLabel.font = UIFont(font: FontFamily.Montserrat.regular, size: 14.0)
         return menuLabel
     }()
     
     lazy var menuSectionView = MenuSectionView(
-        menuSections: menuSections,
         handleSelectItem: { [weak self] valueSelected in
             self?.handleSelectItem(valueSelected)
         }
@@ -57,9 +62,14 @@ final class MenuView: CodedView {
         return tableView
     }()
     
+    private let spinnerLoadingView: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .medium)
+        spinner.isHidden = true
+        return spinner
+    }()
+    
     // MARK: - Properties
     
-    private var menuSections: [Restaurant.MenuSection]?
     private var handleSelectItem: (Int) -> Void
     
     // MARK: - Initialization
@@ -87,12 +97,14 @@ final class MenuView: CodedView {
         addSubview(menuLabel)
         addSubview(menuSectionView)
         addSubview(tableView)
+        addSubview(spinnerLoadingView)
     }
     
     override func addConstraints() {
         menuLabelConstraint()
         menuSectionViewConstraint()
         tableViewConstraint()
+        spinnerLoadingViewContraint()
     }
     
     // MARK: - Private methods
@@ -126,9 +138,34 @@ final class MenuView: CodedView {
         )
     }
     
+    private func spinnerLoadingViewContraint() {
+        spinnerLoadingView.anchor(
+            top: topAnchor,
+            leading: leadingAnchor,
+            bottom: safeAreaLayoutGuide.bottomAnchor,
+            trailing: trailingAnchor
+        )
+    }
+    
     // MARK: - Public methods
     
-    public func setMenuSections(menuSections: [Restaurant.MenuSection]) {
-        menuSectionView.setMenuSections(menuSections: menuSections)
+    public func setViewModel(viewModel: Restaurant.ViewModel) {
+        menuSectionView.setViewModel(viewModel:  viewModel)
+    }
+    
+    public func startLoading() {
+        spinnerLoadingView.startAnimating()
+        spinnerLoadingView.isHidden = false
+        
+        menuSectionView.isHidden = true
+        tableView.isHidden = true
+    }
+    
+    public func stopLoading() {
+        spinnerLoadingView.stopAnimating()
+        spinnerLoadingView.isHidden = true
+        
+        menuSectionView.isHidden = false
+        tableView.isHidden = false
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol MenuDisplayLogic: AnyObject {
-    func displayRestaurant(data: Restaurant)
+    func displayRestaurant(viewState: Restaurant.ViewState)
 }
 
 protocol MenuViewControllerDelegate: AnyObject {
@@ -21,11 +21,10 @@ class MenuViewController: UIViewController {
     // MARK: - Dependencies
     
     private let interactor: MenuBusinessLogic
-    private weak var delegate: MenuViewControllerDelegate?
     
     // MARK: - Properties
     
-    private var restaurant: Restaurant?
+    private var restaurant: Restaurant.ViewModel?
     private var restaurantId: Int?
     private var menuSectionSeleted: Int = .zero
     
@@ -64,11 +63,11 @@ class MenuViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        interactor.viewDidLoad(restaurantId: 38231304122631340)
+        interactor.viewDidLoad(restaurantId: .zero)
     }
     
     private func setupTabViewController() {
-        guard let font = UIFont(name: FontFamily.Montserrat.regular.name, size: 16) else { return }
+        guard let font = UIFont(font: FontFamily.Montserrat.regular, size: 16) else { return }
         self.navigationController?.navigationBar.barTintColor = .white
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: font]
     }
@@ -77,15 +76,34 @@ class MenuViewController: UIViewController {
         menuSectionSeleted = value
         customView.tableView.reloadData()
     }
+    
+    private func setEmptyMessage(tableView: UITableView) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+        messageLabel.text = L10n.emptyMessage
+        messageLabel.textColor = Asset.Colors.blackMain.color
+        messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .center
+        messageLabel.font = UIFont(font: FontFamily.Montserrat.regular, size: 15)
+        messageLabel.sizeToFit()
+        
+        tableView.backgroundView = messageLabel
+        tableView.separatorStyle = .none
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let menusSections = restaurant?.menus.first?.menusSections else { return .zero }
+        guard let menusSections = restaurant?.menuSections else { return .zero }
         let menuItems = menusSections[menuSectionSeleted].menusItems
-        return menuItems.count
+        switch menuItems.count == .zero {
+        case true:
+            setEmptyMessage(tableView: tableView)
+            return .zero
+        case false:
+            return menuItems.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -93,13 +111,13 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard let menuItemCell = cell as? MenuItemCell else { preconditionFailure("MenuItemCell  not registered") }
         
-        guard let menusSections = restaurant?.menus.first?.menusSections  else { return UITableViewCell()}
+        guard let menusSections = restaurant?.menuSections else { return UITableViewCell()}
         
         let menuItem = menusSections[menuSectionSeleted].menusItems[indexPath.row]
         
         let viewModel: MenuItemCell.ViewModel = .init(
             plateName: menuItem.name,
-            ingredients: menuItem.descritption ?? L10n.noDescription,
+            ingredients: menuItem.description ?? L10n.noDescription,
             price: menuItem.price
         )
         
@@ -112,11 +130,17 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - MenuDisplayLogic
 
 extension MenuViewController: MenuDisplayLogic {
-    func displayRestaurant(data: Restaurant) {
-        restaurant = data
-        guard let menuSections = data.menus.first?.menusSections else { return }
-        customView.setMenuSections(menuSections: menuSections)
-        customView.tableView.reloadData()
-        title = data.restaurantName
+    func displayRestaurant(viewState: Restaurant.ViewState) {
+        switch viewState {
+        case let .content(restaurantData):
+            title = restaurantData.restaurantName
+            restaurant = restaurantData
+            customView.setViewModel(viewModel: restaurantData)
+            customView.tableView.reloadData()
+            customView.stopLoading()
+            
+        case .loading:
+            customView.startLoading()
+        }
     }
 }

@@ -10,6 +10,8 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
+  /// No menus registered yet 🍽
+  internal static let emptyMessage = L10n.tr("Localizable", "empty_message")
   /// MENU
   internal static let menu = L10n.tr("Localizable", "menu")
   /// No Description

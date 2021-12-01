@@ -8,3 +8,4 @@
 
 "menu" = "MENU";
 "no_description" = "No Description";
+"empty_message" = "No menus registered yet 🍽";

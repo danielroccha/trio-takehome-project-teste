@@ -40,8 +40,9 @@ final class MenuItemCell: CodedTableViewCell {
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = .zero
         titleLabel.textColor = Asset.Colors.blackMain.color
-        titleLabel.font = UIFont(name: FontFamily.PlayfairDisplay.regular.name, size: 25.0)
+        titleLabel.font = UIFont(font: FontFamily.PlayfairDisplay.regular, size: 25.0)
         return titleLabel
     }()
     
@@ -50,7 +51,7 @@ final class MenuItemCell: CodedTableViewCell {
         ingredientsLabel.numberOfLines = .zero
         ingredientsLabel.textAlignment = .center
         ingredientsLabel.textColor = Asset.Colors.darkGray.color
-        ingredientsLabel.font = UIFont(name: FontFamily.PlayfairDisplay.regular.name, size: 16.0)
+        ingredientsLabel.font = UIFont(font: FontFamily.PlayfairDisplay.regular, size: 16.0)
         return ingredientsLabel
     }()
     
@@ -58,7 +59,7 @@ final class MenuItemCell: CodedTableViewCell {
         let priceLabel = UILabel()
         priceLabel.textAlignment = .center
         priceLabel.textColor = Asset.Colors.darkGray.color
-        priceLabel.font = UIFont(name: FontFamily.Montserrat.regular.name, size: 14.0)
+        priceLabel.font = UIFont(font: FontFamily.Montserrat.regular, size: 14.0)
         return priceLabel
     }()
     

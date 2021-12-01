@@ -22,7 +22,7 @@ final class MenuSectionCell: CodedCollectionViewCell {
     private let sectionNameLabel: UILabel = {
         let sectionNameLabel = UILabel()
         sectionNameLabel.textColor = Asset.Colors.blackMain.color
-        sectionNameLabel.font = UIFont(name: FontFamily.Montserrat.regular.name, size: 14.0)
+        sectionNameLabel.font = UIFont(font: FontFamily.Montserrat.regular, size: 14.0)
         return sectionNameLabel
     }()
     
@@ -36,9 +36,9 @@ final class MenuSectionCell: CodedCollectionViewCell {
     }()
     
     struct ViewModel {
-        var selected: Bool
-        var handleTapSelect: () -> Void
-        var sectionName: String
+        var name: String
+        var isSelected: Bool
+        var handleSelectItem: () -> Void
     }
     
     var viewModel: ViewModel? {
@@ -83,13 +83,13 @@ final class MenuSectionCell: CodedCollectionViewCell {
     
     private func setCellSelected () {
         guard let viewModel = viewModel else { return }
-        borderView.isHidden = !viewModel.selected
-        sectionNameLabel.text = viewModel.sectionName.uppercased()
-        sectionNameLabel.textColor = viewModel.selected ? .black : .lightGray
+        borderView.isHidden = !viewModel.isSelected
+        sectionNameLabel.text = viewModel.name.uppercased()
+        sectionNameLabel.textColor = viewModel.isSelected ? .black : .lightGray
     }
     
     @objc
     private func handleTap() {
-        viewModel?.handleTapSelect()
+        viewModel?.handleSelectItem()
     }
 }

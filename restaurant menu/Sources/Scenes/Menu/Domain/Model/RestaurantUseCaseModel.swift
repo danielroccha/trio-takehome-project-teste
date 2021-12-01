@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Restaurant {
+struct RestaurantUseCaseModel {
     let restaurantName: String
     let restaurantPhone: String
     let restaurantWebsite: String
@@ -31,9 +31,9 @@ struct Restaurant {
         let menusItems: [MenuItem]
     }
 
-    struct MenuItem{
+    struct MenuItem {
         let name: String
-        let descritption: String?
+        let description: String?
         let price: Double
     }
 }
