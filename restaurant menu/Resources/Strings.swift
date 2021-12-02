@@ -12,6 +12,9 @@ import Foundation
 internal enum L10n {
   /// No menus registered yet 🍽
   internal static let emptyMessage = L10n.tr("Localizable", "empty_message")
+  /// Ops! An unexpected error has occurred.
+  /// Tap here to reload screen
+  internal static let errorMessage = L10n.tr("Localizable", "error_message")
   /// MENU
   internal static let menu = L10n.tr("Localizable", "menu")
   /// No Description

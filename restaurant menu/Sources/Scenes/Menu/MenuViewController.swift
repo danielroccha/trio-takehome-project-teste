@@ -109,7 +109,7 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MenuItemCell.self), for: indexPath)
         
-        guard let menuItemCell = cell as? MenuItemCell else { preconditionFailure("MenuItemCell  not registered") }
+        guard let menuItemCell = cell as? MenuItemCell else { preconditionFailure("MenuItemCell not registered") }
         
         guard let menusSections = restaurant?.menuSections else { return UITableViewCell()}
         
@@ -143,7 +143,7 @@ extension MenuViewController: MenuDisplayLogic {
             customView.startLoading()
             
         case .error:
-            print("error")
+            customView.errorView(isHidden: false)
         }
     }
 }

@@ -31,11 +31,20 @@ final class MenuView: CodedView {
     
     // MARK: - View components
     
+    private let errorMessage: UILabel = {
+        let errorMessage = UILabel()
+        errorMessage.textAlignment = .center
+        errorMessage.text = L10n.errorMessage
+        errorMessage.numberOfLines = .zero
+        errorMessage.textColor = .black
+        errorMessage.font = UIFont(font: FontFamily.Montserrat.regular, size: 20.0)
+        return errorMessage
+    }()
+    
     private let menuLabel: UILabel = {
         let menuLabel = UILabel()
         menuLabel.textAlignment = .center
         menuLabel.text = L10n.menu
-        menuLabel.adjustsFontSizeToFitWidth = true
         menuLabel.textColor = .black
         menuLabel.font = UIFont(font: FontFamily.Montserrat.regular, size: 14.0)
         return menuLabel
@@ -98,6 +107,7 @@ final class MenuView: CodedView {
         addSubview(menuSectionView)
         addSubview(tableView)
         addSubview(spinnerLoadingView)
+        addSubview(errorMessage)
     }
     
     override func addConstraints() {
@@ -105,6 +115,7 @@ final class MenuView: CodedView {
         menuSectionViewConstraint()
         tableViewConstraint()
         spinnerLoadingViewContraint()
+        errorMessageContraint()
     }
     
     // MARK: - Private methods
@@ -147,6 +158,15 @@ final class MenuView: CodedView {
         )
     }
     
+    private func errorMessageContraint() {
+        errorMessage.anchor(
+            top: topAnchor,
+            leading: leadingAnchor,
+            bottom: safeAreaLayoutGuide.bottomAnchor,
+            trailing: trailingAnchor
+        )
+    }
+    
     // MARK: - Public methods
     
     public func setViewModel(viewModel: Restaurant.ViewModel) {
@@ -156,7 +176,7 @@ final class MenuView: CodedView {
     public func startLoading() {
         spinnerLoadingView.startAnimating()
         spinnerLoadingView.isHidden = false
-        
+        errorMessage.isHidden = true
         menuSectionView.isHidden = true
         tableView.isHidden = true
     }
@@ -164,8 +184,16 @@ final class MenuView: CodedView {
     public func stopLoading() {
         spinnerLoadingView.stopAnimating()
         spinnerLoadingView.isHidden = true
-        
+        errorMessage.isHidden = true
         menuSectionView.isHidden = false
         tableView.isHidden = false
+    }
+    
+    public func errorView(isHidden: Bool) {
+        spinnerLoadingView.isHidden = true
+        
+        errorMessage.isHidden = false
+        menuSectionView.isHidden = true
+        tableView.isHidden = true
     }
 }

@@ -41,7 +41,6 @@ final class MenuPresenter: MenuPresentationLogic {
     
     private func parseToMenuSectionsViewModel(data: [RestaurantUseCaseModel.MenuSection]) -> [Restaurant.MenuSection] {
         let menuSections = data.map({ menuSection -> Restaurant.MenuSection in
-            
             let menuItems = parseToMenuItemViewModel(data: menuSection.menusItems)
             
             return .init(
