@@ -27,13 +27,13 @@ final class MenuPresenter: MenuPresentationLogic {
                 menuSections: menuSectionsViewModel
             )
             
-            viewController?.displayRestaurant(viewState: .content(menuViewModel))
+            viewController?.displayRestaurant(.content(menuViewModel))
         case .loading:
-    
-            viewController?.displayRestaurant(viewState: .loading)
+            viewController?.displayRestaurant(.loading)
             
-        default:
-            return
+        case .error:
+            viewController?.displayRestaurant(.error)
+            
         }
     }
     

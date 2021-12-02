@@ -23,6 +23,7 @@ enum Restaurant {
     }
     
     enum ViewState {
+        case error
         case loading
         case content(ViewModel)
     }

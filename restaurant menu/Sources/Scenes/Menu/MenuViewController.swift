@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol MenuDisplayLogic: AnyObject {
-    func displayRestaurant(viewState: Restaurant.ViewState)
+    func displayRestaurant(_ viewState: Restaurant.ViewState)
 }
 
 protocol MenuViewControllerDelegate: AnyObject {
@@ -63,7 +63,7 @@ class MenuViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        interactor.viewDidLoad(restaurantId: .zero)
+        interactor.viewDidLoad(restaurantId: 38231304122631340)
     }
     
     private func setupTabViewController() {
@@ -130,7 +130,7 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - MenuDisplayLogic
 
 extension MenuViewController: MenuDisplayLogic {
-    func displayRestaurant(viewState: Restaurant.ViewState) {
+    func displayRestaurant(_ viewState: Restaurant.ViewState) {
         switch viewState {
         case let .content(restaurantData):
             title = restaurantData.restaurantName
@@ -141,6 +141,9 @@ extension MenuViewController: MenuDisplayLogic {
             
         case .loading:
             customView.startLoading()
+            
+        case .error:
+            print("error")
         }
     }
 }

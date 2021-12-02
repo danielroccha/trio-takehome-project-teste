@@ -16,10 +16,12 @@ final class MenuInteractorTests: XCTestCase {
         let interactorSUT = makeInteractorSUT(presenter: presenterSpy, getRestaurantUseCase: GetRestaurantUseCaseStub())
         let expectedResponse: Restaurant.Response = .contentMock
         
+        // When
         interactorSUT.viewDidLoad(restaurantId: .zero)
         
+        //Then
         guard let receivedResponse = presenterSpy.presentRestaurantResponsePassed else {
-            XCTFail("Could not find presentShowsResponsePassed.")
+            XCTFail("Could not find presentRestaurantResponsePassed.")
             return
         }
         XCTAssertTrue(presenterSpy.presentRestaurantMenuCalled)
@@ -29,13 +31,18 @@ final class MenuInteractorTests: XCTestCase {
     func test_interactor_whenReceiveError_shouldCallCorrectMethodInPresenter() {
         // Given
         let presenterSpy = MenuPresenterSpy()
-        let interactorSUT = makeInteractorSUT(presenter: presenterSpy, getRestaurantUseCase: GetRestaurantUseCaseStub())
-        let expectedResponse: Restaurant.Response = .contentMock
         
+        let getRestaurantUseCase = GetRestaurantUseCaseStub()
+        getRestaurantUseCase.getRestaurantUseCaseToBeReturned = .failure(.network)
+        let interactorSUT = makeInteractorSUT(presenter: presenterSpy, getRestaurantUseCase: getRestaurantUseCase)
+        let expectedResponse: Restaurant.Response = .errorMock
+        
+        // When
         interactorSUT.viewDidLoad(restaurantId: .zero)
         
+        //Then
         guard let receivedResponse = presenterSpy.presentRestaurantResponsePassed else {
-            XCTFail("Could not find presentShowsResponsePassed.")
+            XCTFail("Could not find presentRestaurantResponsePassed.")
             return
         }
         XCTAssertTrue(presenterSpy.presentRestaurantMenuCalled)
@@ -62,9 +69,5 @@ final class MenuPresenterSpy: MenuPresentationLogic {
     func presentRestaurantMenu(_ response: Restaurant.Response) {
         presentRestaurantMenuCalled = true
         presentRestaurantResponsePassed = response
-    }
-    
-    func presentErrorRestaurantMenu() {
-        
     }
 }

@@ -10,7 +10,9 @@
 		80603F9AF8DFF06D80226363 /* libPods-restaurant menu-restaurant menuUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C4FEC6A525FAB09975D23F4 /* libPods-restaurant menu-restaurant menuUITests.a */; };
 		AB240D4107BB40003534CF92 /* libPods-restaurant menu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7021BD6B65825D1D619128AE /* libPods-restaurant menu.a */; };
 		B31A21AD2756F5CF00778976 /* MenuPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31A21AC2756F5CF00778976 /* MenuPresenterTests.swift */; };
-		B31A21B22758009200778976 /* MenuModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31A21B12758009200778976 /* MenuModels.swift */; };
+		B31A21B22758009200778976 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31A21B12758009200778976 /* MenuModel.swift */; };
+		B31A21C027584B9D00778976 /* MenuDisplayLogicDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31A21BF27584B9D00778976 /* MenuDisplayLogicDummy.swift */; };
+		B31A21CB2758500400778976 /* MenuModelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31A21CA2758500400778976 /* MenuModelExtensions.swift */; };
 		B362743D2751849E00746C46 /* PlayfairDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B362743C2751849B00746C46 /* PlayfairDisplay-Regular.ttf */; };
 		B3627442275184AD00746C46 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3627441275184AD00746C46 /* Montserrat-Regular.ttf */; };
 		B36274482751871B00746C46 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36274472751871B00746C46 /* MenuView.swift */; };
@@ -34,7 +36,7 @@
 		B36275872756CB4700746C46 /* MenuConfiguratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36275862756CB4700746C46 /* MenuConfiguratorTests.swift */; };
 		B362758F2756D7EC00746C46 /* MenuInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B362758E2756D7EC00746C46 /* MenuInteractorTests.swift */; };
 		B36275952756DE2300746C46 /* GetRestaurantUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36275942756DE2300746C46 /* GetRestaurantUseCaseStub.swift */; };
-		B362759F2756DF4B00746C46 /* MenuModelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B362759E2756DF4B00746C46 /* MenuModelExtension.swift */; };
+		B362759F2756DF4B00746C46 /* RestaurantUseCaseModelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B362759E2756DF4B00746C46 /* RestaurantUseCaseModelExtension.swift */; };
 		B3D747D727514D8D0008A476 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D747D627514D8D0008A476 /* AppDelegate.swift */; };
 		B3D747EE27514D980008A476 /* restaurant_menuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D747ED27514D980008A476 /* restaurant_menuTests.swift */; };
 		B3D747F927514D980008A476 /* restaurant_menuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D747F827514D980008A476 /* restaurant_menuUITests.swift */; };
@@ -73,7 +75,9 @@
 		7021BD6B65825D1D619128AE /* libPods-restaurant menu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-restaurant menu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8216D1240E20921A91106AAB /* Pods-restaurant menu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-restaurant menu.debug.xcconfig"; path = "Target Support Files/Pods-restaurant menu/Pods-restaurant menu.debug.xcconfig"; sourceTree = "<group>"; };
 		B31A21AC2756F5CF00778976 /* MenuPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPresenterTests.swift; sourceTree = "<group>"; };
-		B31A21B12758009200778976 /* MenuModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModels.swift; sourceTree = "<group>"; };
+		B31A21B12758009200778976 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
+		B31A21BF27584B9D00778976 /* MenuDisplayLogicDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDisplayLogicDummy.swift; sourceTree = "<group>"; };
+		B31A21CA2758500400778976 /* MenuModelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModelExtensions.swift; sourceTree = "<group>"; };
 		B362743C2751849B00746C46 /* PlayfairDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		B3627441275184AD00746C46 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		B36274472751871B00746C46 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
@@ -98,7 +102,7 @@
 		B36275862756CB4700746C46 /* MenuConfiguratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuConfiguratorTests.swift; sourceTree = "<group>"; };
 		B362758E2756D7EC00746C46 /* MenuInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteractorTests.swift; sourceTree = "<group>"; };
 		B36275942756DE2300746C46 /* GetRestaurantUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRestaurantUseCaseStub.swift; sourceTree = "<group>"; };
-		B362759E2756DF4B00746C46 /* MenuModelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModelExtension.swift; sourceTree = "<group>"; };
+		B362759E2756DF4B00746C46 /* RestaurantUseCaseModelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantUseCaseModelExtension.swift; sourceTree = "<group>"; };
 		B3D747D327514D8D0008A476 /* restaurant menu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "restaurant menu.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3D747D627514D8D0008A476 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3D747E427514D970008A476 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -232,6 +236,7 @@
 		B36275752756C98300746C46 /* Dummies */ = {
 			isa = PBXGroup;
 			children = (
+				B31A21BF27584B9D00778976 /* MenuDisplayLogicDummy.swift */,
 			);
 			path = Dummies;
 			sourceTree = "<group>";
@@ -283,7 +288,8 @@
 		B362759C2756DF1000746C46 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				B362759E2756DF4B00746C46 /* MenuModelExtension.swift */,
+				B362759E2756DF4B00746C46 /* RestaurantUseCaseModelExtension.swift */,
+				B31A21CA2758500400778976 /* MenuModelExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -399,7 +405,7 @@
 			children = (
 				B3D74826275150FA0008A476 /* MenuViewController.swift */,
 				B3D7482B2751510C0008A476 /* MenuInteractor.swift */,
-				B31A21B12758009200778976 /* MenuModels.swift */,
+				B31A21B12758009200778976 /* MenuModel.swift */,
 				B3D748302751511E0008A476 /* MenuPresenter.swift */,
 				B36274E82751DFBD00746C46 /* MenuConfigurator.swift */,
 				B36274F627527C2100746C46 /* Domain */,
@@ -642,7 +648,7 @@
 				B362746A27519FC900746C46 /* RestaurantResponseEntity.swift in Sources */,
 				B36274582751912E00746C46 /* RestaurantRequest.swift in Sources */,
 				B36275192752DB3F00746C46 /* UIViewExtension.swift in Sources */,
-				B31A21B22758009200778976 /* MenuModels.swift in Sources */,
+				B31A21B22758009200778976 /* MenuModel.swift in Sources */,
 				B36275112752BACC00746C46 /* MenuItemCell.swift in Sources */,
 				B36274E92751DFBD00746C46 /* MenuConfigurator.swift in Sources */,
 				B362753F27558EDC00746C46 /* XCAssets+Generated.swift in Sources */,
@@ -654,11 +660,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B362758F2756D7EC00746C46 /* MenuInteractorTests.swift in Sources */,
+				B31A21C027584B9D00778976 /* MenuDisplayLogicDummy.swift in Sources */,
+				B31A21CB2758500400778976 /* MenuModelExtensions.swift in Sources */,
 				B31A21AD2756F5CF00778976 /* MenuPresenterTests.swift in Sources */,
 				B36275952756DE2300746C46 /* GetRestaurantUseCaseStub.swift in Sources */,
 				B3D747EE27514D980008A476 /* restaurant_menuTests.swift in Sources */,
 				B36275872756CB4700746C46 /* MenuConfiguratorTests.swift in Sources */,
-				B362759F2756DF4B00746C46 /* MenuModelExtension.swift in Sources */,
+				B362759F2756DF4B00746C46 /* RestaurantUseCaseModelExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

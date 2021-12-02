@@ -9,7 +9,7 @@ import Foundation
 @testable import restaurant_menu
 
 final class GetRestaurantUseCaseStub: GetRestaurantUseCaseProvider {
-    let getRestaurantUseCaseToBeReturned: Result<RestaurantUseCaseModel,
+    var getRestaurantUseCaseToBeReturned: Result<RestaurantUseCaseModel,
                                                  RestaurantServiceError> = .success(.restaurantMock)
     
     func execute(from restaurantId: Int, then handle: @escaping (Result<RestaurantUseCaseModel, RestaurantServiceError>) -> Void) {
